@@ -1,0 +1,39 @@
+import java.util.Scanner;
+
+interface TextEncoder {
+    String encode(String text, int shift);
+}
+
+class CaesarTextEncoder implements TextEncoder {
+    @Override
+    public String encode(String text, int shift) {
+        StringBuilder encodedText = new StringBuilder();
+        for (char c : text.toCharArray()) {
+            if (Character.isLetter(c)) {
+                char base = Character.isUpperCase(c) ? 'A' : 'a';
+                int shifted = (c - base + shift) % 26;
+                encodedText.append((char) (base + shifted));
+            } else {
+                encodedText.append(c);
+            }
+        }
+        return encodedText.toString();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Digite um texto curto: ");
+        String inputText = scanner.nextLine();
+
+        System.out.print("Digite o valor do deslocamento: ");
+        int shift = Integer.parseInt(scanner.nextLine());
+
+        TextEncoder encoder = new CaesarTextEncoder();
+        String encodedText = encoder.encode(inputText, shift);
+
+        System.out.println("Texto codificado: " + encodedText);
+    }
+}
